@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ModernStore.Domain.Entities;
+using ModernStore.Domain.ValueObjects;
 
 namespace ModernStore.Domain.Tests
 {
@@ -12,7 +13,11 @@ namespace ModernStore.Domain.Tests
         [TestCategory("Customer - New Customer")]
         public void GivenAnInvalidFirstNameShouldReturnANotification()
         {
-            var customer = new Customer("", "Knupfer", "email@email.com", user);
+            var name = new Name("", "Knupfer");
+            var email = new Email("email@email.com");
+            var document = new Document("123456789-10");
+
+            var customer = new Customer(name, email, document, user);
             Assert.IsFalse(customer.IsValid());
         }
 
@@ -20,7 +25,11 @@ namespace ModernStore.Domain.Tests
         [TestCategory("Customer - New Customer")]
         public void GivenAnInvalidLastNameShouldReturnANotification()
         {
-            var customer = new Customer("Stephen", "", "email@email.com", user);
+            var name = new Name("Stephen", "");
+            var email = new Email("email@email.com");
+            var document = new Document("123456789-10");
+
+            var customer = new Customer(name, email, document, user);
             Assert.IsFalse(customer.IsValid());
         }
 
@@ -28,7 +37,11 @@ namespace ModernStore.Domain.Tests
         [TestCategory("Customer - New Customer")]
         public void GivenAnInvalidEmailShouldReturnANotification()
         {
-            var customer = new Customer("Stephen", "Knupfer", "email", user);
+            var name = new Name("Stephen", "Knupfer");
+            var email = new Email("email-invalido");
+            var document = new Document("123456789-10");
+
+            var customer = new Customer(name, email, document, user);
             Assert.IsFalse(customer.IsValid());
         }
     }
